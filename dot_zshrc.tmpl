@@ -61,6 +61,8 @@ HIST_STAMPS="%Y-%m-%d %T"
 plugins=(
 {{- if eq .chezmoi.os "darwin" }}
   # macOS plugins
+  alias-tips
+  aliases
   brew
   fd
   gitfast
@@ -78,8 +80,6 @@ plugins=(
 {{- end }}
   # common plugins
   ag
-  alias-tips
-  aliases
   composer
   fzf
   git
