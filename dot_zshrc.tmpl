@@ -49,7 +49,7 @@ COMPLETION_WAITING_DOTS="true"
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="%Y-%m-%d %T"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -59,14 +59,33 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+{{- if eq .chezmoi.os "darwin" }}
+  # macOS plugins
+  brew
+  fd
+  gitfast
+  gitolite
+  macos
+  mosh
+  silverstripe
+  symfony-console
+  symfony2
+  sudo
+{{- end }}
 {{- if ne .chezmoi.os "darwin" }}
+  # non-macOS plugins
   ssh-agent
 {{- end }}
-  zoxide
-  magic-enter
-  git
-  per-directory-history
+  # common plugins
+  ag
+  alias-tips
+  aliases
+  composer
   fzf
+  git
+  magic-enter
+  per-directory-history
+  zoxide
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -100,16 +119,57 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-if [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then 
+{{- if eq .chezmoi.os "darwin" }}
+
+# ZSH completions
+fpath=(~/.oh-my-zsh/custom/completions $fpath)
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+fi
+autoload -Uz compinit
+compinit
+
+# Don't search /etc/hosts for hostname completions
+zstyle ':completion:*:hosts' hosts off
+
+# Composer completions
+if [ -f "$HOME/.composer-autocomplete" ] ; then
+    . $HOME/.composer-autocomplete
+fi
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH:./vendor/bin"
+{{- end }}
+
+{{- if eq .chezmoi.os "freebsd" }}
+if [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
-if [ -f /usr/local/share/examples/fzf/shell/key-bindings.zsh                 ]; then
+if [ -f /usr/local/share/examples/fzf/shell/key-bindings.zsh ]; then
   source /usr/local/share/examples/fzf/shell/key-bindings.zsh
   bindkey "^T" transpose-chars
 fi
-if [ -f /usr/local/share/examples/fzf/shell/completion.zsh                   ];then 
+if [ -f /usr/local/share/examples/fzf/shell/completion.zsh ];then
   source /usr/local/share/examples/fzf/shell/completion.zsh
 fi
+{{- else if eq .chezmoi.os "linux" }}
+if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+if [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+  bindkey "^T" transpose-chars
+fi
+if [ -f /usr/share/doc/fzf/examples/completion.zsh ];then
+  source /usr/share/doc/fzf/examples/completion.zsh
+fi
+{{- else if eq .chezmoi.os "darwin" }}
+if [ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# FZF -- override FZF_CTRL_T_COMMAND
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+bindkey "^T" transpose-chars
+{{- end }}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
