@@ -1,0 +1,6 @@
+{{- if eq .chezmoi.os "darwin" }}
+export EDITOR="code --wait"
+export HBLOCK_TEMPLATE='127.0.0.1 %D\n::1 %D'
+{{- else }}
+export EDITOR=vim
+{{- end }}
