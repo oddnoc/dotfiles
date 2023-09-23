@@ -61,9 +61,10 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(
   zoxide
   magic-enter
-  httpie
   git
- per-directory-history)
+  per-directory-history
+  fzf
+)
 
 source $ZSH/oh-my-zsh.sh
 
