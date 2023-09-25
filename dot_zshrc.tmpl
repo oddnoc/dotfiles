@@ -133,9 +133,12 @@ compinit
 # Don't search /etc/hosts for hostname completions
 zstyle ':completion:*:hosts' hosts off
 
-# Composer completions
+# local completions
 if [ -f "$HOME/.composer-autocomplete" ] ; then
     . $HOME/.composer-autocomplete
+fi
+if [ -f "$HOME/.deployer_completion" ] ; then
+    . $HOME/.deployer_completion
 fi
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH:./vendor/bin"
 {{- end }}
