@@ -1,0 +1,4 @@
+{{ if eq .chezmoi.os "darwin" -}}
+export FPATH=/opt/homebrew/share/zsh/site-functions:$FPATH
+export PATH="/opt/homebrew/bin:$PATH:$HOME/bin"
+{{- end }}
