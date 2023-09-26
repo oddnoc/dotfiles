@@ -141,7 +141,6 @@ fi
 if [ -f "$HOME/.deployer_completion" ] ; then
     . $HOME/.deployer_completion
 fi
-export PATH="/opt/homebrew/opt/ruby/bin:$PATH:./vendor/bin"
 {{- end }}
 
 {{- if eq .chezmoi.os "freebsd" }}
