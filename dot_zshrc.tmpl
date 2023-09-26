@@ -90,6 +90,9 @@ plugins=(
   zoxide
 )
 
+# Support completion for composer and deployer
+export SYMFONY_CONSOLE_TOOLS="composer dep"
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -137,9 +140,6 @@ zstyle ':completion:*:hosts' hosts off
 # local completions
 if [ -f "$HOME/.composer-autocomplete" ] ; then
     . $HOME/.composer-autocomplete
-fi
-if [ -f "$HOME/.deployer_completion" ] ; then
-    . $HOME/.deployer_completion
 fi
 {{- end }}
 
