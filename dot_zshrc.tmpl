@@ -69,8 +69,8 @@ plugins=(
 {{- if eq .chezmoi.os "darwin" }}
   # macOS plugins
   alias-tips
-  aliases
   brew
+  copypath
   fd
   gitfast
   gitolite
@@ -84,9 +84,15 @@ plugins=(
 {{- if ne .chezmoi.os "darwin" }}
   # non-macOS plugins
   ssh-agent
+  tmux
+{{- end }}
+{{- if eq .chezmoi.osRelease.id "ubuntu" }}
+  # ubuntu plugins
+  ubuntu
 {{- end }}
   # common plugins
   ag
+  aliases
   composer
   fzf
   git
