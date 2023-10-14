@@ -137,6 +137,9 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 {{- if eq .chezmoi.os "darwin" }}
+if command -v nodenv > /dev/null 2>&1; then
+    eval "$(nodenv init -)"
+fi
 
 # ZSH completions
 fpath=(~/.oh-my-zsh/custom/completions $fpath)
