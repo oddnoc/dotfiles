@@ -60,6 +60,9 @@ HIST_STAMPS="%Y-%m-%d %T"
 MAGIC_ENTER_GIT_COMMAND='exa -glFG --git && hr "-" && git status -u . && hr "." && git describe'
 MAGIC_ENTER_OTHER_COMMAND='exa -glFG --git'
 {{- end }}
+{{ if eq .chezmoi.os "freebsd" -}}
+MAGIC_ENTER_OTHER_COMMAND='ls -lhv'
+{{- end }}
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
