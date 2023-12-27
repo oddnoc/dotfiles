@@ -160,6 +160,22 @@ zstyle ':completion:*:hosts' hosts off
 if [ -f "$HOME/.composer-autocomplete" ] ; then
     . $HOME/.composer-autocomplete
 fi
+
+autoload -Uz add-zsh-hook
+# auto PHP on Mac
+function autophp() {
+  if [ ! -f ./composer.json ]; then return; fi
+  local VERSION=$(jaq '.require.php'< composer.json | sed -e 's/^"~\([0-9]\.[0-9]\).*/\1/')
+  # Sanitize the version
+  case "$VERSION" in
+    8.0 | 8.1 | 8.2 | 8.3 )
+        local CURRENT=$(php -r 'echo PHP_VERSION;' | cut -f 1-2 -d '.')
+        if [ "$CURRENT" = "$VERSION" ]; then return; fi
+        brew unlink "php@$CURRENT" && brew link --overwrite "php@$VERSION" && composer global update
+    ;;
+  esac
+}
+add-zsh-hook precmd autophp
 {{- end }}
 
 {{- if eq .chezmoi.os "freebsd" }}
