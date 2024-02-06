@@ -57,8 +57,8 @@ HIST_STAMPS="%Y-%m-%d %T"
 
 {{ if eq .chezmoi.os "darwin" -}}
 # Magic-enter settings must be before the plugins list
-MAGIC_ENTER_GIT_COMMAND='git describe && hr "." && git status -u . && hr "-" && eza -glFG --git'
-MAGIC_ENTER_OTHER_COMMAND='eza -glFG --git'
+MAGIC_ENTER_GIT_COMMAND='git describe && hr "." && git status -u . && hr "-" && eza -gl --git'
+MAGIC_ENTER_OTHER_COMMAND='eza -gl --git'
 {{- end }}
 {{ if eq .chezmoi.os "freebsd" -}}
 MAGIC_ENTER_OTHER_COMMAND='ls -lhv'
