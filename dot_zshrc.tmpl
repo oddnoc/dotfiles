@@ -172,7 +172,7 @@ function autophp() {
         local CURRENT=$(php -r 'echo PHP_VERSION;' | cut -f 1-2 -d '.')
         if [ "$CURRENT" = "$VERSION" ]; then return; fi
         echo $'\nPHP version is wrong for this project: ' "$CURRENT != $VERSION; switching to $VERSION" $'\n' > /dev/stderr
-        brew link --overwrite "php@$VERSION" && composer global update
+        brew unlink "php@$CURRENT" && brew link --force "php@$VERSION" && composer global update
     ;;
   esac
 }
