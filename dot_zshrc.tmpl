@@ -71,8 +71,8 @@ setopt HIST_REDUCE_BLANKS    # Remove superfluous blanks from each command line 
 
 {{ if eq .chezmoi.os "darwin" -}}
 # Magic-enter settings must be before the plugins list
-MAGIC_ENTER_GIT_COMMAND='git describe && hr "." && git status -u . && hr "-" && eza -gl --git'
-MAGIC_ENTER_OTHER_COMMAND='eza -gl --git'
+MAGIC_ENTER_GIT_COMMAND='git describe && hr "." && git status -u . && hr "-" && eza -gbl --git'
+MAGIC_ENTER_OTHER_COMMAND='eza -gbl --git'
 {{- end }}
 {{ if eq .chezmoi.os "freebsd" -}}
 MAGIC_ENTER_OTHER_COMMAND='ls -lhv'
