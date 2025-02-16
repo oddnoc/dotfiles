@@ -71,12 +71,21 @@ setopt HIST_REDUCE_BLANKS    # Remove superfluous blanks from each command line 
 
 {{ if eq .chezmoi.os "darwin" -}}
 # Magic-enter settings must be before the plugins list
-MAGIC_ENTER_GIT_COMMAND='git describe && hr "." && git status -u . && hr "-" && eza -gbl --git'
-MAGIC_ENTER_OTHER_COMMAND='eza -gbl --git'
+MAGIC_ENTER_GIT_COMMAND='git describe; hr "."; git status -u .; hr "-"; eza -gbl --git --icons'
+MAGIC_ENTER_OTHER_COMMAND='eza -gbl --git --icons'
 {{- end }}
 {{ if eq .chezmoi.os "freebsd" -}}
 MAGIC_ENTER_OTHER_COMMAND='ls -lhv'
 {{- end }}
+
+## eza plugin settings
+zstyle ':omz:plugins:eza' 'color-scale' all
+zstyle ':omz:plugins:eza' 'dirs-first' yes
+zstyle ':omz:plugins:eza' 'git-status' yes
+zstyle ':omz:plugins:eza' 'header' yes
+zstyle ':omz:plugins:eza' 'icons' yes
+zstyle ':omz:plugins:eza' 'show-group' yes
+zstyle ':omz:plugins:eza' 'size-prefix' binary
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -108,6 +117,7 @@ plugins=(
 {{- end }}
   # common plugins
   aliases
+  eza
   composer
   git
   magic-enter
