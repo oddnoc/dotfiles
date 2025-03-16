@@ -94,17 +94,12 @@ zstyle ':omz:plugins:eza' 'size-prefix' binary
 plugins=(
 {{- if eq .chezmoi.os "darwin" }}
   # macOS plugins
-  alias-tips
+  alias-finder
   brew
   copypath
   gitfast
-  gitolite
   macos
   mosh
-  silverstripe
-  symfony-console
-  symfony2
-  vscode
 {{- end }}
 {{- if ne .chezmoi.os "darwin" }}
   # non-macOS plugins
