@@ -69,14 +69,9 @@ setopt HIST_REDUCE_BLANKS    # Remove superfluous blanks from each command line 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-{{ if eq .chezmoi.os "darwin" -}}
 # Magic-enter settings must be before the plugins list
 MAGIC_ENTER_GIT_COMMAND='git describe; hr "."; git status -u .; hr "-"; eza -gbl --git --icons'
 MAGIC_ENTER_OTHER_COMMAND='eza -gbl --git --icons'
-{{- end }}
-{{ if eq .chezmoi.os "freebsd" -}}
-MAGIC_ENTER_OTHER_COMMAND='ls -lhv'
-{{- end }}
 
 ## eza plugin settings
 zstyle ':omz:plugins:eza' 'color-scale' all
