@@ -1,11 +1,17 @@
 {{- if eq .chezmoi.os "darwin" }}
-export EDITOR="code --wait"
 export HBLOCK_TEMPLATE='127.0.0.1 %D\n::1 %D'
 export HOMEBREW_INSTALL_BADGE='🌈'
 export LC_ALL="en_US.UTF-8"
 export PATH=$PATH:$HOME/go/bin
 export EZA_ICONS_AUTO=true
-{{- else }}
-export EDITOR=vim
 {{- end }}
+if command -v codium > /dev/null; then
+    export EDITOR="codium --wait"
+elif command -v code > /dev/null; then
+    export EDITOR="code --wait"
+elif command -v vim > /dev/null; then
+    export EDITOR="vim"
+else
+    export EDITOR="vi"
+fi
 [ -f ~/.zshenv_local ] && . ~/.zshenv_local
