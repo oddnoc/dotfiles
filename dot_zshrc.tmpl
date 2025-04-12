@@ -200,8 +200,8 @@ fi
 if [ -f /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
   source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
-if [ -f /usr/local/share/examples/fzf/shell/key-bindings.zsh ]; then
-  source /usr/local/share/examples/fzf/shell/key-bindings.zsh
+# FZF -- override FZF_CTRL_T_COMMAND
+if command -v fzf > /dev/null; then
   bindkey "^T" transpose-chars
 fi
 if [ -f /usr/local/share/examples/fzf/shell/completion.zsh ];then
