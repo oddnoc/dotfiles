@@ -177,16 +177,23 @@ autoload -Uz add-zsh-hook
 function autophp() {
   if [ ! -f ./composer.json ]; then return; fi
   local VERSION=$(jaq '.require.php'< composer.json | sed -e 's/^"~\([0-9]\.[0-9]\).*/\1/')
+  local MAXVERSION=8.4
   # Sanitize the version
   case "$VERSION" in
-    8.1 | 8.2 | 8.3 | 8.4 )
+    8.1 | 8.2 | 8.3 | "$MAXVERSION" )
         local CURRENT=$(php -r 'echo PHP_VERSION;' | cut -f 1-2 -d '.')
         if [ "$CURRENT" = "$VERSION" ]; then return; fi
         echo $'\nPHP version is wrong for this project: ' "$CURRENT != $VERSION; switching to $VERSION" $'\n' > /dev/stderr
         brew unlink php
         brew unlink php@$CURRENT
-        brew unlink php@$VERSION
-        brew link --overwrite "php@$VERSION" && composer global update
+        if [ "$VERSION" = "$MAXVERSION" ]; then
+          brew unlink php
+          brew link --overwrite php
+        else
+          brew unlink php@$VERSION
+          brew link --overwrite "php@$VERSION"
+        fi
+        composer global update
     ;;
   esac
 }
