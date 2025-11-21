@@ -152,7 +152,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 {{- if eq .chezmoi.os "darwin" }}
-ALLOWED_BREW_USER=fred
 if command -v nodenv > /dev/null 2>&1; then
     eval "$(nodenv init -)"
 fi
@@ -163,12 +162,7 @@ if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 fi
 autoload -Uz compinit
-# Homebrew sharing kluge
-if [ "$ALLOWED_BREW_USER" = $(stat -f "%Su" $(which brew)) ]; then
-    compinit -u
-else
-    compinit
-fi
+compinit
 
 # Don't search /etc/hosts for hostname completions
 zstyle ':completion:*:hosts' hosts off
@@ -189,10 +183,10 @@ function autophp() {
         local CURRENT=$(php -r 'echo PHP_VERSION;' | cut -f 1-2 -d '.')
         if [ "$CURRENT" = "$VERSION" ]; then return; fi
         echo $'\nPHP version is wrong for this project: ' "$CURRENT != $VERSION; switching to $VERSION" $'\n' > /dev/stderr
-        sudo -Hu $ALLOWED_BREW_USER brew unlink php
-        sudo -Hu $ALLOWED_BREW_USER brew unlink php@$CURRENT
-        sudo -Hu $ALLOWED_BREW_USER brew unlink php@$VERSION
-        sudo -Hu $ALLOWED_BREW_USER brew link --overwrite "php@$VERSION" && composer global update
+        brew unlink php
+        brew unlink php@$CURRENT
+        brew unlink php@$VERSION
+        brew link --overwrite "php@$VERSION" && composer global update
     ;;
   esac
 }
