@@ -1,4 +1,4 @@
 {{- if ne .chezmoi.username "fred" }}
 .gitconfig
 {{- end }}
-/README.md
+README.md
